@@ -21,17 +21,18 @@ namespace backend.Data
     {
         // Configure Task entity
         modelBuilder.Entity<Task>()
-            .Property(testc => t.Name)
+            .Property(t => t.Name)
             .IsRequired()
             .HasMaxLength(100);
 
         modelBuilder.Entity<Task>()
-            .Property(testc => t.Category)
+            .Property(t => t.Category)
             .IsRequired();
 
         modelBuilder.Entity<Task>()
-            .Property(testc => t.Score)
-            .IsRequired();
+            .Property(t => t.Score)
+            .IsRequired()
+            .HasConversion<int>();
 
         // Add dummy data for testing purposes
         modelBuilder.Entity<TaskDbContext>().HasData(
@@ -57,7 +58,7 @@ namespace backend.Data
             {
                 Name = "Brazilian Jiu-Jitsu",
                 Category = Category.Body,
-                Score = Score.Medium
+                Score = Score.High
             }
         );
 
