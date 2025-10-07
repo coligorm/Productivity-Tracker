@@ -33,5 +33,33 @@ namespace backend.Data
             .Property(testc => t.Score)
             .IsRequired();
 
+        // Add dummy data for testing purposes
+        modelBuilder.Entity<TaskDbContext>().HasData(
+            new Task
+            {
+                Name = "Programming",
+                Category = Category.Mind,
+                Score = Score.High
+            },
+            new Task
+            {
+                Name = "Play bass",
+                Category = Category.Soul,
+                Score = Score.Medium
+            },
+            new Task
+            {
+                Name = "Read",
+                Category = Category.Soul,
+                Score = Score.Low
+            },
+            new Task
+            {
+                Name = "Brazilian Jiu-Jitsu",
+                Category = Category.Body,
+                Score = Score.Medium
+            }
+        );
+
     }
 }
