@@ -3,10 +3,10 @@ using backend.Models;
 
 namespace backend.Data
 {
-    public class TaskDbContext : TaskDbContext
+    public class AppDbContext : DbContext
 
         // Constructor
-        public TaskDbContext(DbContextOptions<TaskDbContext> options) : base(options) { }
+        public AppDbContext(DbContextOptions<TaskDbContext> options) : base(options) { }
 
     // expose Tasks table for querying and saving Task entities in dbcontext
     public Dbset<Task> Tasks { get; set; }
@@ -35,7 +35,7 @@ namespace backend.Data
             .HasConversion<int>();
 
         // Add dummy data for testing purposes
-        modelBuilder.Entity<TaskDbContext>().HasData(
+        modelBuilder.Entity<AppDbContext>().HasData(
             new Task
             {
                 Name = "Programming",
