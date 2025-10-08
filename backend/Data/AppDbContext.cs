@@ -8,8 +8,8 @@ namespace backend.Data
         // Constructor
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        // expose Tasks table for querying and saving Task entities in dbcontext
-        public DbSet<Task> Tasks { get; set; }
+        // expose TaskModels table for querying and saving TaskModel entities in dbcontext
+        public DbSet<TaskModel> Tasks { get; set; }
 
         protected override void OnConfiguration(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,42 +19,42 @@ namespace backend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure Task entity
-            modelBuilder.Entity<Task>()
+            // Configure TaskModel entity
+            modelBuilder.Entity<TaskModel>()
                 .Property(t => t.Name)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            modelBuilder.Entity<Task>()
+            modelBuilder.Entity<TaskModel>()
                 .Property(t => t.Category)
                 .IsRequired();
 
-            modelBuilder.Entity<Task>()
+            modelBuilder.Entity<TaskModel>()
                 .Property(t => t.Score)
                 .IsRequired()
                 .HasConversion<int>();
 
             // Add dummy data for testing purposes
             modelBuilder.Entity<AppDbContext>().HasData(
-                new Task
+                new TaskModel
                 {
                     Name = "Programming",
                     Category = Category.Mind,
                     Score = Score.High
                 },
-                new Task
+                new TaskModel
                 {
                     Name = "Play bass",
                     Category = Category.Soul,
                     Score = Score.Medium
                 },
-                new Task
+                new TaskModel
                 {
                     Name = "Read",
                     Category = Category.Soul,
                     Score = Score.Low
                 },
-                new Task
+                new TaskModel
                 {
                     Name = "Brazilian Jiu-Jitsu",
                     Category = Category.Body,

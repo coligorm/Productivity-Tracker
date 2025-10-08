@@ -1,6 +1,6 @@
 namespace backend.Models
 {
-    public class Task
+    public class TaskModel
     {
         public string Name { get; set; }
         public Category Category { get; set; }
