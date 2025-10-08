@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using backend.Models;
 
 namespace backend.Data
@@ -11,11 +12,9 @@ namespace backend.Data
         // expose TaskModels table for querying and saving TaskModel entities in dbcontext
         public DbSet<TaskModel> Tasks { get; set; }
 
-        protected override void OnConfiguration(DbContextOptionsBuilder optionsBuilder)
-        {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
             // Disable warning for model change
             optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
