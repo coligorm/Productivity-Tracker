@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Services;
+using backend.Models;
 
 // controller deals with web
 namespace backend.Controllers
@@ -18,7 +19,7 @@ namespace backend.Controllers
 
 		// POST
 		[HttpPost]
-		public async TaskModel<ActionResult> AddTask(TaskModel taskModel)
+		public async Task<ActionResult> AddTask(TaskModel taskModel)
 		{
 			try
 			{

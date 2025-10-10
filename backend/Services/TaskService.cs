@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
+using backend.Models;
+
 
 // service deals with business rules
 namespace backend.Services
@@ -13,7 +15,7 @@ namespace backend.Services
 			_context = context;
 		}
 
-		public async TaskModel<TaskModel> AddTask(TaskModel taskModel)
+		public async Task<TaskModel> AddTaskAsync(TaskModel taskModel)
 		{
 			var count = await _context.Tasks.CountAsync(t => t.Category == taskModel.Category);
 			if (count >= 3)
