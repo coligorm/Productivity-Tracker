@@ -34,7 +34,7 @@ namespace backend.Data
                 .HasConversion<int>();
 
             // Add dummy data for testing purposes
-            modelBuilder.Entity<AppDbContext>().HasData(
+            modelBuilder.Entity<TaskModel>().HasData(
                 new TaskModel
                 {
                     Name = "Programming",
