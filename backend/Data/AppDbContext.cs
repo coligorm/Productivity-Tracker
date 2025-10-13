@@ -37,24 +37,28 @@ namespace backend.Data
             modelBuilder.Entity<TaskModel>().HasData(
                 new TaskModel
                 {
+                    Id = 1,
                     Name = "Programming",
                     Category = Category.Mind,
                     Score = Score.High
                 },
                 new TaskModel
                 {
+                    Id = 2,
                     Name = "Play bass",
                     Category = Category.Soul,
                     Score = Score.Medium
                 },
                 new TaskModel
                 {
+                    Id = 3,
                     Name = "Read",
                     Category = Category.Soul,
                     Score = Score.Low
                 },
                 new TaskModel
                 {
+                    Id = 4,
                     Name = "Brazilian Jiu-Jitsu",
                     Category = Category.Body,
                     Score = Score.High
