@@ -25,5 +25,16 @@ namespace backend.Services
 			await _context.SaveChangesAsync();
 			return taskModel;
 		}
-	}
+
+        public async Task<List<TaskModel>> GetAllTasksAsync()
+        {
+            return await _context.Tasks.ToListAsync();
+        }
+
+        public async Task<TaskModel?> GetTaskByIdAsync(int id)
+        {
+            return await _context.Tasks.FindAsync(id);
+        }
+
+    }
 }

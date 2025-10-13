@@ -31,5 +31,27 @@ namespace backend.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
-	}
+
+        // GET: api/Tasks
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TaskModel>>> GetTasks()
+        {
+            var tasks = await _taskService.GetAllTasksAsync();
+            return Ok(tasks);
+        }
+
+        // GET: api/Task/id
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TaskModel>> GetTask(int id)
+        {
+            var task = await _taskService.GetTaskByIdAsync(id);
+
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            return task;
+        }
+    }
 }
