@@ -40,7 +40,7 @@ namespace backend.Controllers
             return Ok(tasks);
         }
 
-        // GET: api/Task/id
+        // GET: api/Tasks/id
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskModel>> GetTask(int id)
         {
@@ -70,6 +70,19 @@ namespace backend.Controllers
             }
 
 			return Ok(updatedTask);
+        }
+
+        // DELETE: api/Tasks/id
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTask(int id)
+        {
+            var deletedTask = await _taskService.DeleteTaskAsync(id);
+            if (deletedTask == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(deletedTask);
         }
 
 

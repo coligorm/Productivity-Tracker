@@ -44,5 +44,15 @@ namespace backend.Services
 			return taskModel;
         }
 
+		public async Task<TaskModel> DeleteTaskAsync(int id)
+		{
+            var taskModel = await _context.Tasks.FindAsync(id);
+
+            _context.Tasks.Remove(taskModel);
+            await _context.SaveChangesAsync();
+
+			return taskModel;
+        }
+
     }
 }
