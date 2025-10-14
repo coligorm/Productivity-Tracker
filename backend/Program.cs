@@ -2,12 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using backend.Data;
+using backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Register TaskService
+builder.Services.AddScoped<TaskService>();
 
 // Register Swagger
 builder.Services.AddSwaggerGen(c =>
