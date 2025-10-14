@@ -53,5 +53,25 @@ namespace backend.Controllers
 
             return task;
         }
+
+		// PUT
+		[HttpPut("{id}")]
+		public async Task<IActionResult> UpdateTask(int id, TaskModel taskModel)
+		{
+			if (id != taskModel.Id)
+			{
+				return BadRequest();
+			}
+
+			var updatedTask = await _taskService.UpdateTaskAsync(taskModel);
+            if (updatedTask == null)
+            {
+                return NotFound();
+            }
+
+			return Ok(updatedTask);
+        }
+
+
     }
 }

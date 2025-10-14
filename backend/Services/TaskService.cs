@@ -36,5 +36,13 @@ namespace backend.Services
             return await _context.Tasks.FindAsync(id);
         }
 
+		public async Task<TaskModel> UpdateTaskAsync(TaskModel taskModel)
+		{
+            _context.Entry(taskModel).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+			return taskModel;
+        }
+
     }
 }
