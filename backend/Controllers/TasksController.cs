@@ -23,14 +23,18 @@ namespace backend.Controllers
 		{
 			try
 			{
-				var result = await _taskService.AddTaskAsync(taskModel);
-				return Ok(result);
+				var createdTask = await _taskService.AddTaskAsync(taskModel);
+				return return CreatedAtAction(nameof(GetTask), new { id = createdTask.Id }, createdTask);
 			}
 			catch (InvalidOperationException ex)
 			{
 				return BadRequest(ex.Message);
 			}
-		}
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while creating the task");
+            }
+        }
 
         // GET: api/Tasks
         [HttpGet]
@@ -44,47 +48,39 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskModel>> GetTask(int id)
         {
-            var task = await _taskService.GetTaskByIdAsync(id);
-
-            if (task == null)
+            try
+            {
+                var task = await _taskService.GetTaskByIdAsync(id);
+                return Ok(task);
+            }
+            catch
             {
                 return NotFound();
-            }
-
-            return task;
+            }   
         }
 
 		// PUT
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateTask(int id, TaskModel taskModel)
 		{
-			if (id != taskModel.Id)
-			{
-				return BadRequest();
-			}
-
-			var updatedTask = await _taskService.UpdateTaskAsync(taskModel);
-            if (updatedTask == null)
+            if (id != taskModel.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
-
-			return Ok(updatedTask);
+            var updatedTask = await _taskService.UpdateTaskAsync(taskModel);
+            return NoContent();
         }
 
         // DELETE: api/Tasks/id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
-            var deletedTask = await _taskService.DeleteTaskAsync(id);
+            var success = await _taskService.DeleteTaskAsync(id);
             if (deletedTask == null)
             {
                 return NotFound();
             }
-            
-            return Ok(deletedTask);
+            return NoContent();
         }
-
-
     }
 }

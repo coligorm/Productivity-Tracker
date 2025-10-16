@@ -17,11 +17,26 @@ namespace backend.Services
 
 		public async Task<TaskModel> AddTaskAsync(TaskModel taskModel)
 		{
-			var count = await _context.Tasks.CountAsync(t => t.Category == taskModel.Category);
-			if (count >= 3)
-				throw new InvalidOperationException("A category can only have 3 tasks.");
+            var duplicateCheck = await _context.Tasks.AnyAsync(t => t.Category == taskModel.Category && t.Score == taskModel.Score);
+			if (duplicateCheck)
+			{
+                throw new InvalidOperationException($"There can only be 1 Task with a score of {taskModel.Score} within each category: {taskModel.Category}" +
+					$"\nPlease select a different number between 1 - 3.");
+            }
 
-			_context.Tasks.Add(taskModel);
+            var categoryCheck = await _context.Tasks.CountAsync(t => t.Category == taskModel.Category);
+			if (categoryCheck >= 3)
+			{
+                throw new InvalidOperationException("A category can only have 3 tasks.");
+            }
+
+			var scoreCheck = await _context.Tasks.CountAsync(t => t.Score == taskModel.Score);
+			if (scoreCheck < 1 && scoreCheck > 3)
+			{
+                throw new InvalidOperationException("A score must be 1, 2 or 3.");
+            }
+
+            _context.Tasks.Add(taskModel);
 			await _context.SaveChangesAsync();
 			return taskModel;
 		}
