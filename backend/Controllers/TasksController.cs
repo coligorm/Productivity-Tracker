@@ -24,7 +24,7 @@ namespace backend.Controllers
 			try
 			{
 				var createdTask = await _taskService.AddTaskAsync(taskModel);
-				return return CreatedAtAction(nameof(GetTask), new { id = createdTask.Id }, createdTask);
+				return CreatedAtAction(nameof(GetTask), new { id = createdTask.Id }, createdTask);
 			}
 			catch (InvalidOperationException ex)
 			{
@@ -76,7 +76,7 @@ namespace backend.Controllers
         public async Task<IActionResult> DeleteTask(int id)
         {
             var success = await _taskService.DeleteTaskAsync(id);
-            if (deletedTask == null)
+            if (success == null)
             {
                 return NotFound();
             }
