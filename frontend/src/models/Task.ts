@@ -16,3 +16,9 @@ export enum Score {
     Medium = 2,
     High = 3
 }
+
+export interface createTaskRequest{
+    name: String;
+    category: Category;
+    score: Score;
+}
