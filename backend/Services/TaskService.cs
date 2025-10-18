@@ -15,30 +15,42 @@ namespace backend.Services
 			_context = context;
 		}
 
-		public async Task<TaskModel> AddTaskAsync(TaskModel taskModel)
+		public async Task<TaskModel> AddTaskAsync(TaskModel newTask, int categoryId)
 		{
-            var duplicateCheck = await _context.Tasks.AnyAsync(t => t.Category == taskModel.Category && t.Score == taskModel.Score);
-			if (duplicateCheck)
-			{
-                throw new InvalidOperationException($"There can only be 1 Task with a score of {taskModel.Score} within each category: {taskModel.Category}" +
-					$"\nPlease select a different number between 1 - 3.");
+            // Load Category Table
+			var category = await _context.Categories
+				.Include(c => c.Tasks)
+				.FirstOrDefaultAsync(c => c.Id == categoryId);
+
+            // Valid new task checks
+            if (category == null)
+            {
+                throw new NotFoundException($"Category with ID {categoryId} not found");
             }
 
-            var categoryCheck = await _context.Tasks.CountAsync(t => t.Category == taskModel.Category);
-			if (categoryCheck >= 3)
+            if (category.Tasks.Any(t => t.Score == newTask.Score))
 			{
-                throw new InvalidOperationException("A category can only have 3 tasks.");
+                throw new InvalidOperationException($"There can only be 1 Task with a score of {newTask.Score} within each category: {category.Type}" +
+					$"\nPlease select a different score between 1 - 3.");
             }
 
-			var scoreCheck = await _context.Tasks.CountAsync(t => t.Score == taskModel.Score);
-			if (scoreCheck < 1 && scoreCheck > 3)
+			if (category.Tasks.Count >= 3)
+			{
+                throw new InvalidOperationException($"Category: {category.Type} already has the maximum of 3 tasks." +
+                    $"\nPlease select a different score between 1 - 3.");
+            }
+
+			if (newTask.Score < 1 && newTask.Score > 3)
 			{
                 throw new InvalidOperationException("A score must be 1, 2 or 3.");
             }
 
-            _context.Tasks.Add(taskModel);
-			await _context.SaveChangesAsync();
-			return taskModel;
+            // Set forign key, add task and save
+            newTask.CategoryId = categoryId;
+            _context.Tasks.Add(newTask);
+            await _context.SaveChangesAsync();
+			
+            return newTask;
 		}
 
         public async Task<List<TaskModel>> GetAllTasksAsync()
