@@ -50,12 +50,12 @@ namespace backend.Services
 
         public async Task<List<TaskModel>> GetAllTasksAsync()
         {
-            return await _context.Tasks.ToListAsync();
+            return await _context.Tasks.Include(t => t.Category).ToListAsync();
         }
 
         public async Task<TaskModel?> GetTaskByIdAsync(int id)
         {
-            return await _context.Tasks.FindAsync(id);
+            return await _context.Tasks.Include(t => t.Category).FirstOrDefaultAsync(t => t.Id == id);
         }
 
 		public async Task<TaskModel> UpdateTaskAsync(TaskModel taskModel)
