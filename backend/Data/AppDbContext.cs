@@ -21,24 +21,25 @@ namespace backend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure TaskModel entity
+            // Configure TaskModel / Category relationsi
             modelBuilder.Entity<TaskModel>()
                 .HasOne(t => t.Category)
                 .WithMany(c => c.Tasks)
                 .HasForeignKey(t => t.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Configure TaskModel properties
             modelBuilder.Entity<TaskModel>()
                 .Property(t => t.Name)
                 .IsRequired()
                 .HasMaxLength(100);
 
             modelBuilder.Entity<TaskModel>()
-                .Property(t => t.Category)
+                .Property(t => t.CategoryId)
                 .IsRequired();
 
             modelBuilder.Entity<TaskModel>()
-                .Property(t => t.ScoreLevel)
+                .Property(t => t.Score)
                 .IsRequired()
                 .HasConversion<int>();
 

@@ -1,6 +1,6 @@
 namespace backend.Models
 {
-    class CategoryModel
+    public class CategoryModel
     {
         public int Id { get; set; }
         public CategoryType Type { get; set; }

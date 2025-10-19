@@ -23,7 +23,7 @@ namespace backend.Controllers
 		{
 			try
 			{
-				var createdTask = await _taskService.AddTaskAsync(taskModel);
+				var createdTask = await _taskService.AddTaskAsync(taskModel, taskModel.CategoryId);
 				return CreatedAtAction(nameof(GetTask), new { id = createdTask.Id }, createdTask);
 			}
 			catch (InvalidOperationException ex)
