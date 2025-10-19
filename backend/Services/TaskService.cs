@@ -25,7 +25,7 @@ namespace backend.Services
             // Valid new task checks
             if (category == null)
             {
-                throw new NotFoundException($"Category with ID {categoryId} not found");
+                throw new InvalidOperationException($"Category with ID {categoryId} not found");
             }
 
             if (category.Tasks.Any(t => t.Score == newTask.Score))
@@ -38,11 +38,6 @@ namespace backend.Services
 			{
                 throw new InvalidOperationException($"Category: {category.Type} already has the maximum of 3 tasks." +
                     $"\nPlease select a different score between 1 - 3.");
-            }
-
-			if (newTask.Score < 1 && newTask.Score > 3)
-			{
-                throw new InvalidOperationException("A score must be 1, 2 or 3.");
             }
 
             // Set forign key, add task and save
