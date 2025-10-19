@@ -104,9 +104,7 @@ namespace backend.Data
                     Name = "Play bass",
                     CategoryId = 3,
                     Score = ScoreLevel.Medium
-                },
-                
-                
+                }
             );
         }
     }
